@@ -10,8 +10,7 @@ import java.util.UUID;
 
 public class PlayerService {
     public static void createPlayer(CreateEditPlayerRequestDTO body) throws SQLException {
-        Player p = new Player(UUID.randomUUID(), body.getName());
-        p.setId(UUID.randomUUID());
+        Player p = new Player(UUID.randomUUID().toString(), body.getName());
         PlayerRepository.createPlayer(p);
     }
 
@@ -23,7 +22,7 @@ public class PlayerService {
         if(!PlayerRepository.existsPlayer(id)){
             throw new IllegalArgumentException("Player with id '%s' does not exist!".formatted(id));
         }
-        Player p = new Player(UUID.fromString(id), newName);
+        Player p = new Player(id, newName);
         PlayerRepository.updatePlayer(p);
     }
 

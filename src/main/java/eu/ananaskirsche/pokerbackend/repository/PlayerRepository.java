@@ -1,17 +1,17 @@
 package eu.ananaskirsche.pokerbackend.repository;
 
-import com.zaxxer.q2o.Q2ObjList;
 import eu.ananaskirsche.pokerbackend.dto.db.Player;
 import eu.ananaskirsche.pokerbackend.service.DatabaseService;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerRepository {
     public static void createPlayer(final Player p) throws SQLException {
         try(Connection con = DatabaseService.getConnection()){
             PreparedStatement stmt = con.prepareStatement("INSERT INTO player(id, name) VALUES (?, ?)");
-            stmt.setString(1, p.getId().toString());
+            stmt.setString(1, p.getId());
             stmt.setString(2, p.getName());
             stmt.execute();
             stmt.close();
@@ -34,7 +34,10 @@ public class PlayerRepository {
         try(Connection con = DatabaseService.getConnection()){
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM player ORDER BY player.name");
-            List<Player> playerList = Q2ObjList.fromResultSet(rs, Player.class);
+            List<Player> playerList = new ArrayList<>();
+            while(rs.next()){
+                playerList.add(getPlayerFromResultSet(rs));
+            }
             rs.close();
             stmt.close();
             return playerList;
@@ -45,7 +48,7 @@ public class PlayerRepository {
         try(Connection con = DatabaseService.getConnection()){
             PreparedStatement stmt = con.prepareStatement("UPDATE player SET player.name = ? WHERE player.id = ?");
             stmt.setString(1, p.getName());
-            stmt.setString(2, p.getId().toString());
+            stmt.setString(2, p.getId());
             stmt.execute();
             stmt.close();
         }
@@ -58,5 +61,18 @@ public class PlayerRepository {
             stmt.execute();
             stmt.close();
         }
+    }
+
+    private static Player getPlayerFromResultSet(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        final int colCount = rsMeta.getColumnCount();
+        Player p = new Player();
+        for(int i = 1; i <= colCount; i++){
+            switch (rsMeta.getColumnName(i)){
+                case "id" -> p.setId(rs.getString(i));
+                case "name" -> p.setName(rs.getString(i));
+            }
+        }
+        return p;
     }
 }
