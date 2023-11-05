@@ -29,4 +29,8 @@ public class PlayerService {
     public static void deletePlayer(String id) throws SQLException {
         PlayerRepository.deletePlayer(id);
     }
+
+    public static List<Player> queryPlayer(String query) throws SQLException {
+        return PlayerRepository.findPlayersByName(query);
+    }
 }

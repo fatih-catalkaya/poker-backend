@@ -2,6 +2,7 @@ package eu.ananaskirsche.pokerbackend;
 
 import eu.ananaskirsche.pokerbackend.controller.AuthController;
 import eu.ananaskirsche.pokerbackend.controller.PlayerController;
+import eu.ananaskirsche.pokerbackend.controller.TransactionController;
 import eu.ananaskirsche.pokerbackend.service.JavalinConfigurationService;
 import eu.ananaskirsche.pokerbackend.service.MigrationService;
 import eu.ananaskirsche.pokerbackend.service.PropertiesService;
@@ -38,7 +39,7 @@ public class Main {
                     delete("/{id}", PlayerController::deletePlayerController, Role.USER);
                 });
                 path("transaction", () -> {
-
+                    post("/", TransactionController::createTransaction, Role.USER);
                 });
                 path("auth", () -> {
                     post("login", AuthController::loginController, Role.ANONYMOUS);

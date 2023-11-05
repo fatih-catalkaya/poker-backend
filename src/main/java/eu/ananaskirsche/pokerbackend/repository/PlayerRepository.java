@@ -63,6 +63,21 @@ public class PlayerRepository {
         }
     }
 
+    public static List<Player> findPlayersByName(String query) throws SQLException {
+        try(Connection con = DatabaseService.getConnection()){
+            PreparedStatement stmt = con.prepareStatement("SELECT * FROM player WHERE name LIKE ? ORDER BY player.name");
+            stmt.setString(1, "%" + query + "%");
+            ResultSet rs = stmt.executeQuery();
+            List<Player> playerList = new ArrayList<>();
+            while(rs.next()){
+                playerList.add(getPlayerFromResultSet(rs));
+            }
+            rs.close();
+            stmt.close();
+            return playerList;
+        }
+    }
+
     private static Player getPlayerFromResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsMeta = rs.getMetaData();
         final int colCount = rsMeta.getColumnCount();

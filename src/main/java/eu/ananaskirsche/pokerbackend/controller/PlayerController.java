@@ -4,6 +4,7 @@ import eu.ananaskirsche.pokerbackend.dto.rest.CreateEditPlayerRequestDTO;
 import eu.ananaskirsche.pokerbackend.service.PlayerService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,24 @@ public class PlayerController {
         try{
             ctx.json(PlayerService.getAllPlayer());
         } catch (Exception ex){
-            log.error("An error occured when fetching all players!");
+            log.error("An error occurred when fetching all players!");
+            log.error("Exception: ", ex);
+            ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public static void queryPlayers(Context ctx){
+        try{
+            String query = ctx.queryParam("q");
+            if(StringUtils.isEmpty(query)){
+                ctx.json(PlayerService.getAllPlayer());
+            }
+            else{
+                ctx.json(PlayerService.queryPlayer(query));
+            }
+        }
+        catch (Exception ex){
+            log.error("An error occurred when querying players!");
             log.error("Exception: ", ex);
             ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
