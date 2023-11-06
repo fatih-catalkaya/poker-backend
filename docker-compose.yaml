@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./poker.db:/app/poker.db"
+      - "./.env:/app/.env"
+      - "./debug.log:/app/debug.log"
+      - "./info.log:/app/info.log"
