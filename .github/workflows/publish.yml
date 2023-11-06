@@ -11,6 +11,6 @@ jobs:
         name: Pull code
       - name: Build and push Docker container
         run: |
-          docker login --username ${{ secrets.GHCR_LOGIN_USERNAME }} --password ${{ secrets.GHCR_LOGIN_TOKEN }}
+          docker login --username ${{ secrets.GHCR_LOGIN_USERNAME }} --password ${{ secrets.GHCR_LOGIN_TOKEN }} ghcr.io
           docker build . --tag ghcr.io/fatih-catalkaya/poker-backend:latest
           docker push ghcr.io/fatih-catalkaya/poker-backend:latest
