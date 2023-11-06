@@ -16,7 +16,7 @@ public class StatisticsRepository {
                      FROM transactions
                      LEFT JOIN player ON player.id = transactions.player_id
                      GROUP BY player_id
-                     ORDER BY balance
+                     ORDER BY balance DESC
                     """;
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class CreateTransactionRequestDTO {
     private String playerId;
     private double amount;
-    private boolean isWithdrawal;
+    private boolean withdrawal;
     private LocalDateTime timestamp;
     private String comment;
 }

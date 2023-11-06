@@ -56,7 +56,11 @@ public class PlayerRepository {
 
     public static void deletePlayer(String id) throws SQLException{
         try(Connection con = DatabaseService.getConnection()){
-            PreparedStatement stmt = con.prepareStatement("DELETE FROM player WHERE id = ?");
+            PreparedStatement stmt = con.prepareStatement("DELETE FROM transactions WHERE player_id = ?");
+            stmt.setString(1, id);
+            stmt.execute();
+            stmt.close();
+            stmt = con.prepareStatement("DELETE FROM player WHERE id = ?");
             stmt.setString(1, id);
             stmt.execute();
             stmt.close();
