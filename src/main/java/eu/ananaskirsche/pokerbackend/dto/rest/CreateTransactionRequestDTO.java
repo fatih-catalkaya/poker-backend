@@ -16,4 +16,5 @@ public class CreateTransactionRequestDTO {
     private double amount;
     private boolean isWithdrawal;
     private LocalDateTime timestamp;
+    private String comment;
 }

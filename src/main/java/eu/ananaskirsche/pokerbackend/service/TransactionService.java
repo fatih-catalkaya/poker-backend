@@ -13,12 +13,18 @@ public class TransactionService {
         if(!PlayerRepository.existsPlayer(dto.getPlayerId())){
             throw new IllegalArgumentException("Player with id %s does not exist!".formatted(dto.getPlayerId()));
         }
+
+        double amount = dto.getAmount();
+        if(dto.isWithdrawal()){
+            amount *= -1;
+        }
+
         Transaction t = new Transaction();
         t.setId(UUID.randomUUID().toString());
         t.setPlayerId(dto.getPlayerId());
-        t.setAmount(dto.getAmount());
+        t.setAmount(amount);
         t.setCreatedAt(dto.getTimestamp());
-        t.setComment("");
+        t.setComment(dto.getComment());
         TransactionRepository.createTransaction(t);
     }
 }
