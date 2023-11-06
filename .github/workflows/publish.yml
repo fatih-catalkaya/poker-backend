@@ -1,0 +1,16 @@
+name: "publish"
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Pull code
+      - name: Build and push Docker container
+        run: |
+          docker login --username ${{ secrets.GHCR_LOGIN_USERNAME }} --password ${{ secrets.GHCR_LOGIN_TOKEN }}
+          docker build . --tag ghcr.io/fatih-catalkaya/poker-backend:latest
+          docker push ghcr.io/fatih-catalkaya/poker-backend:latest
