@@ -6,7 +6,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "./poker.db:/app/poker.db"
+      - "./data:/app/data"
       - "./.env:/app/.env"
-      - "./debug.log:/app/debug.log"
-      - "./info.log:/app/info.log"
+      - "./logs:/app/logs"

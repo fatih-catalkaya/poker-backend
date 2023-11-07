@@ -46,7 +46,7 @@ public class PlayerRepository {
 
     public static void updatePlayer(Player p) throws SQLException {
         try(Connection con = DatabaseService.getConnection()){
-            PreparedStatement stmt = con.prepareStatement("UPDATE player SET player.name = ? WHERE player.id = ?");
+            PreparedStatement stmt = con.prepareStatement("UPDATE player SET name = ? WHERE id = ?");
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getId());
             stmt.execute();
