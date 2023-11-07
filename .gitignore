@@ -44,3 +44,4 @@ bin/
 /poker.db
 debug.log
 info.log
+logs/
