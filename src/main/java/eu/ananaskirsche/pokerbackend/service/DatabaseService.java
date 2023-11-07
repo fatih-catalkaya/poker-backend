@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseService {
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:sqlite:poker.db");
+        String filePath = PropertiesService.getEnv().get("DB_FILE", "data/poker.db");
+        return DriverManager.getConnection("jdbc:sqlite:%s".formatted(filePath));
     }
 }
